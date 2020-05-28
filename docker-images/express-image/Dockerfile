@@ -1,7 +1,7 @@
 FROM node:14.1.0
 
 RUN apt-get update && \
-	apt-get install vim
+	apt-get install -y vim
 
 COPY src/ /opt/app
 
