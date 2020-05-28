@@ -155,9 +155,9 @@ docker build -t res/express-dynamic docker-images/express-image/
 docker build -t res/apache-rp docker-images/apache-reverse-proxy/
 
 #run containers in this order important !
-docker run res/apache-static
-docker run res/express-dynamic
-docker run res/apache-rp
+docker run -d res/apache-static
+docker run -d res/express-dynamic
+docker run -d res/apache-rp
 
 #test routing
 telnet 172.17.0.4 80
@@ -172,3 +172,56 @@ Host: demo.res.ch
 
 #It's possible to test it in a web browser too
 ```
+
+
+
+# Part 4 : AJAX requests with JQuery
+
+### 1: List of tasks to do this step
+
+- Update the images to install vim
+- Start the 3 containers in the correct order (same as Part 3)
+- Log into the static http container
+- Create our own JavaScript script
+- Use JQuery to do an AJAX request
+- Use JQuery to update DOM element
+
+### 2: Changes between this lab and the video
+
+- Our JavaScript script does the same things as the video but it is a little different
+- We have added class `skills` on the DOM element that we want to modify.
+
+### 3: Additional informations
+
+- The configuration is the same as the Part 3
+- Your `/etc/hosts` file must to be modified as in Part 3
+
+### 4: To test on your machine
+
+```bash
+git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
+cd RES-LaboHTTP-Infra
+git checkout step3-reverse-proxy
+
+#install node dependencies
+cd docker-images/express-image/src
+npm install
+cd ../../..
+
+#build images
+docker build -t res/apache-static docker-images/apache-php-image/
+docker build -t res/express-dynamic docker-images/express-image/
+docker build -t res/apache-rp docker-images/apache-reverse-proxy/
+
+#run containers in this order important !
+docker run -d res/apache-static
+docker run -d res/express-dynamic
+docker run -d res/apache-rp
+
+#You can test in your web browser with http://demo.res.ch
+```
+
+
+
+# Part 5: Dynamic reverse proxy configuration
+
