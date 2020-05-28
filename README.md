@@ -142,7 +142,7 @@ The **same-origin policy** only authorize request coming from the same origin. I
 ```bash
 git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
 cd RES-LaboHTTP-Infra
-git checkout step3-reverse-proxy
+git checkout part3-reverse-proxy
 
 #install node dependencies
 cd docker-images/express-image/src
@@ -201,7 +201,7 @@ Host: demo.res.ch
 ```bash
 git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
 cd RES-LaboHTTP-Infra
-git checkout step4-reverse-proxy
+git checkout part4-ajax-jquery
 
 #install node dependencies
 cd docker-images/express-image/src
@@ -247,7 +247,7 @@ docker run -d res/apache-rp
 ```bash
 git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
 cd RES-LaboHTTP-Infra
-git checkout step5-reverse-proxy
+git checkout step5-dynamic-configuration
 
 #install node dependencies
 cd docker-images/express-image/src
