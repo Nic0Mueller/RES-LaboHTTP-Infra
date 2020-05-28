@@ -93,3 +93,82 @@ docker inspect <NAME> | grep -i "ipaddress"
 # Connect to the ip address found on port 3000 from a browser or via Postman to test it
 ```
 
+
+
+# Step 3: Reverse proxy with apache (static configuration)
+
+### Same-origin policy
+
+The **same-origin policy** only authorize request coming from the same origin. In this Lab, we use the domain `demo.res.ch`, which mean that only request from this domain will be allowed.
+
+### 1: List of tasks to do this step
+
+- Start two containers (httpd + node)
+- Grab their IP address
+- Create a new Docker image for the reverse proxy
+- Configure the reverse proxy routing
+- Test
+
+### 2: Changes between this lab and the video
+
+- For the apache static and reverse proxy server, we use the `php:7.4-apache` base image.
+
+### 3: Additional informations
+
+- In this part, the RP server use a static routing configuration so it's important to start the container in the next order (to get the correct IP routing) :
+
+  1. apache-php-image (172.17.0.2:80)
+
+  2. express-image (172.17.0.3:3000)
+
+  3. apache-reverse-proxy (172.17.0.4:80)
+
+- To avoid using a DNS, we have to add
+
+  ```
+  172.17.0.4	demo.res.ch
+  ```
+
+  in `/etc/hosts` file.
+
+- if you don't have this IPs, you have to change it in `apache-reverse-proxy/conf/sites-available/001-reverse-proxy.conf` and rebuild the RP image.
+
+- The RP will be redirect requests from `demo.res.ch:80` to `apache-php-image`
+
+- The RP will be redirect requests from `demo.res.ch:80/api/students` to `express-image`
+
+### 4: To test on your machine
+
+```bash
+git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
+cd RES-LaboHTTP-Infra
+git checkout step3-reverse-proxy
+
+#install node dependencies
+cd docker-images/express-image/src
+npm install
+cd ../../..
+
+#build images
+docker build -t res/apache-static docker-images/apache-php-image/
+docker build -t res/express-dynamic docker-images/express-image/
+docker build -t res/apache-rp docker-images/apache-reverse-proxy/
+
+#run containers in this order important !
+docker run res/apache-static
+docker run res/express-dynamic
+docker run res/apache-rp
+
+#test routing
+telnet 172.17.0.4 80
+
+#get static content
+GET / HTTP/1.0
+Host: demo.res.ch
+
+#get dynamic content
+GET /api/students/ HTTP/1.0
+Host: demo.res.ch
+
+#It's possible to test it in a web browser too
+```
