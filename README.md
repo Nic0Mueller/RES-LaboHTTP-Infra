@@ -3,13 +3,6 @@
 
 ## Denis Bourqui, Nicolas Müller, Thomas Rieder
 
-# TODO for each part
-
- \1. la liste des étapes réalisées pour arriver à vos fins
-  \2. les changements que vous avez dû opérer par rapport aux webcasts
-  \3. des explications supplémentaires qui vous paraissent importantes (Dockerfile, variables d'environnement, et tout ce qui peut vous paraître utile)
-  \4. la marche à suivre pour exécuter la step sur notre machine
-
 # Introduction
 
 In this lab, we'll get across different steps to build a web infrastructure. Every member of our group is running Manjaro Linux with a native docker running on it. This means our solution is a bit different than the one shown in the videos. We don't need to do port forwarding to access the containers that we start.
