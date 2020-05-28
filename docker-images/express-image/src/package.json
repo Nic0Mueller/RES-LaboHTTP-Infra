@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Denis Bourqui, Nicolas Mueller",
+  "author": "Denis Bourqui, Nicolas Mueller, Thomas Rieder",
   "license": "ISC",
   "dependencies": {
     "chance": "^1.1.4",
