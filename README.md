@@ -247,7 +247,7 @@ docker run -d res/apache-rp
 ```bash
 git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
 cd RES-LaboHTTP-Infra
-git checkout step5-dynamic-configuration
+git checkout part5-dynamic-configuration
 
 #install node dependencies
 cd docker-images/express-image/src
