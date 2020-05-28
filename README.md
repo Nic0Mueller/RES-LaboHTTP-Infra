@@ -201,7 +201,7 @@ Host: demo.res.ch
 ```bash
 git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
 cd RES-LaboHTTP-Infra
-git checkout step3-reverse-proxy
+git checkout part4-ajax-jquery
 
 #install node dependencies
 cd docker-images/express-image/src
