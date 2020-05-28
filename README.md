@@ -201,7 +201,7 @@ Host: demo.res.ch
 ```bash
 git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
 cd RES-LaboHTTP-Infra
-git checkout step3-reverse-proxy
+git checkout step4-reverse-proxy
 
 #install node dependencies
 cd docker-images/express-image/src
@@ -224,4 +224,57 @@ docker run -d res/apache-rp
 
 
 # Part 5: Dynamic reverse proxy configuration
+
+### 1: List of tasks to do this step
+
+- Pass environment variables when starting a Docker container `-e`
+- Add a setup phase in the RP Dockerfile (change CMD and invoke a script)
+- Use PHP to create a template for the RP configuration file
+- Inject environment variables in the configuration file
+
+### 2: Changes between this lab and the video
+
+- We use `php:7.4-apache` as base image so our `apache2-foreground` script is different
+
+### 3: Additional informations
+
+- after this step we can run our containers in any order, which mean we need to get the static and dynamic container IP with `docker inspect` to pass the IP as an environment variable when running the RP container.
+- `STATIC_APP` name of environment variable to pass the `IP:PORT` of the static container
+- `DYNAMIC_APP` name of environment variable to pass the `IP:PORT` of the dynamic container
+
+### 4: To test on your machine
+
+```bash
+git clone https://github.com/Nic0Mueller/RES-LaboHTTP-Infra.git
+cd RES-LaboHTTP-Infra
+git checkout step5-reverse-proxy
+
+#install node dependencies
+cd docker-images/express-image/src
+npm install
+cd ../../..
+
+#build images
+docker build -t res/apache-static docker-images/apache-php-image/
+docker build -t res/express-dynamic docker-images/express-image/
+docker build -t res/apache-rp docker-images/apache-reverse-proxy/
+
+#run static and dynamic containers in any order
+#you can also run any other containers here
+docker run -d --name dynamic-app res/express-dynamic
+docker run -d --name static-app res/apache-static
+
+#get the IP address of the needed containers
+
+docker inspect static-app | grep -i ipaddress
+#example: static app get 172.17.0.5
+
+docker inspect dynamic-app | grep -i ipaddress
+#example: dynamic app get 172.17.0.8
+
+#run RP container with this two environment variables
+docker run -d -e STATIC_APP=172.17.0.5:80 -e DYNAMIC_APP=172.17.0.8:3000 res/apache-rp
+
+#You can test in your web browser with http://demo.res.ch
+```
 
